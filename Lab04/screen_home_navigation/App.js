@@ -4,11 +4,19 @@ import { FontAwesome } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-function HomeScreen({ navigation }) {
+function HomeScreen({ navigation, route }) {
+  const [selectedImageUri, setSelectedImageUri] = React.useState('https://cdn.viettelstore.vn/Images/Product/ProductImage/1412734899.jpeg');
+
+  React.useEffect(() => {
+    if (route.params?.imageUri) {
+      setSelectedImageUri(route.params.imageUri);
+    }
+  }, [route.params?.imageUri]);
+
   return (
     <View style={styles.container}>
       <Image
-        source={{ uri: 'https://cdn.viettelstore.vn/Images/Product/ProductImage/1412734899.jpeg' }}
+        source={{ uri: selectedImageUri }}
         style={styles.productImage}
       />
       <Text style={styles.productName}>Điện thoại Vsmart Joy 3 - Hàng chính hãng</Text>
@@ -44,12 +52,16 @@ function ColorSelectionScreen({ navigation }) {
     setColorSelected(colorName);
   };
 
+  const handleDone = () => {
+    navigation.navigate('Home', { imageUri });
+  };
+
   return (
     <View style={styles.colorSelectionContainer}>
       <View style={styles.colorBodyContainer}>
         <Image source={{ uri: imageUri }} style={styles.productImageSelection} />
         <View>
-          <Text style={styles.productNameColor}>Điện thoại Vsmart Joy 3 {'\n'}Hàng chính hãng</Text>
+          <Text style={styles.productNameColor}>Điện thoại Vsmart Joy 3</Text>
           <Text style={styles.colorDisplay}>Màu: {colorSelected}</Text>
           <Text style={styles.providerText}><Text style={styles.boldText}>Cung cấp bởi Tiki Trading</Text></Text>
           <Text style={styles.priceText}>1.790.000 đ</Text>
@@ -70,11 +82,14 @@ function ColorSelectionScreen({ navigation }) {
         <TouchableOpacity style={styles.colorOption} onPress={() => handleSelectColor('Lục', 'https://cdn.tgdd.vn/Products/Images/42/217920/vsmart-joy-3-den-1-750x500.jpg')}>
           <View style={[styles.colorSample, { backgroundColor: '#567f2d' }]} />
         </TouchableOpacity>
+       
       </View>
+       <TouchableOpacity style={styles.doneButton} onPress={handleDone}>
+          <Text style={styles.doneButtonText}>Xong</Text>
+        </TouchableOpacity>
     </View>
   );
 }
-
 
 const Stack = createNativeStackNavigator();
 
@@ -116,7 +131,6 @@ const styles = StyleSheet.create({
   productNameColor: {
     fontSize: 15,
     flexShrink: 1,
-    
   },
   ratingContainer: {
     flexDirection: 'row',
@@ -186,7 +200,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height :2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
@@ -195,7 +209,7 @@ const styles = StyleSheet.create({
   buyButtonText: {
     color: '#FFFFFF',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   colorSelectionContainer: {
     flex: 1,
@@ -207,15 +221,14 @@ const styles = StyleSheet.create({
   colorBodyContainer: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-start', 
+    justifyContent: 'flex-start',
     padding: 20,
   },
-  
-   colorFooterContainer: {
+  colorFooterContainer: {
     flexDirection: 'column',
     alignItems: 'center',
     padding: 20,
-    marginBottom: 80
+    marginBottom: 60
   },
   colorSelectionPrompt: {
     fontSize: 20,
@@ -227,11 +240,11 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   colorSample: {
-    width:100, 
-    height: 100, 
-    borderWidth: 2, 
-    borderColor: '#D1D1D1' 
-  }, 
+    width: 100,
+    height: 100,
+    borderWidth: 2,
+    borderColor: '#D1D1D1'
+  },
   colorDisplay: {
     fontSize: 16,
     marginTop: 10
@@ -247,7 +260,22 @@ const styles = StyleSheet.create({
   },
   boldText: {
     fontWeight: 'bold'
-  }  
+  },
+  doneButton: {
+    backgroundColor: 'blue',
+    width: 350,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5
+
+},
+  doneButtonText: {
+    fontSize: 20,
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+  }
     
 });
 
