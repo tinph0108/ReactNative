@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, FlatList } from 'react-native';
-
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const data = [
   {
     id: '1',
@@ -82,19 +82,13 @@ const App = () => {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <View style={styles.headerContainer}>
+       <View style={styles.headerContainer}>
         <TouchableOpacity>
-          <Image 
-            source={{ uri: 'https://img.icons8.com/color/48/000000/left.png' }} 
-            style={styles.icon}
-          />
+          <FontAwesome name="arrow-left" size={30} color="white" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Chat</Text>
         <TouchableOpacity>
-          <Image 
-            source={{ uri: 'https://img.icons8.com/color/48/000000/shopping-cart.png' }} 
-            style={styles.icon}
-          />
+          <FontAwesome name="shopping-cart" size={30} color="white" />
         </TouchableOpacity>
       </View>
     <Text style={styles.infoText}>
@@ -112,24 +106,16 @@ const App = () => {
       {/* Footer */}
       <View style={styles.footerContainer}>
         <TouchableOpacity>
-          <Image 
-            source={{ uri: 'https://img.icons8.com/color/48/000000/menu.png' }} 
-            style={styles.icon}
-          />
+          <FontAwesome name="bars" size={30} color="black" />
         </TouchableOpacity>
         <TouchableOpacity>
-          <Image 
-            source={{ uri: 'https://img.icons8.com/color/48/000000/home.png' }} 
-            style={styles.icon}
-          />
+          <FontAwesome name="home" size={30} color="black" />
         </TouchableOpacity>
         <TouchableOpacity>
-          <Image 
-            source={{ uri: 'https://img.icons8.com/color/48/000000/exit.png' }} 
-            style={styles.icon}
-          />
+          <FontAwesome name="sign-out" size={30} color="black" />
         </TouchableOpacity>
       </View>
+    
     </View>
   );
 };
@@ -152,10 +138,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
-  },
-  icon: {
-    width: 30,
-    height: 30,
   },
   productList: {
     flex: 1,
@@ -215,7 +197,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#00ADEF',
     paddingVertical: 10,
     paddingHorizontal: 20,
-    marginBottom: 3, 
     paddingBottom: 20
   },
    infoText: {
