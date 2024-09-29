@@ -15,7 +15,7 @@ const DATA = [
   },
   {
     id: '2',
-    title: 'Cáp chuyển từ Cổng USB sang PS2...',
+    title: 'Cáp chuyển từ Cổng USB sang PS2....',
     image: 'https://s3-alpha-sig.figma.com/img/c12d/6fdf/653e7955fdd212ca1c4f3e84a556faf8?Expires=1728259200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=GlEChIvctUODC-VoC5SD16Agx97XKoECqfjeYaD7XVSSoKz8UXx33RNK8nZewVl5oIDyt9694MBCqqAZ9CpvfoWNoQejfR04OmvDEy0yvJPMmQl3m9HJfTILzYjb7FN9RoOOzo-Br7GuPpydK6SqmjQt5niXN7-t1eNxcpPQQ2cFHmubWzaNO0~rjrn4NzdPwiex8CZ1w~WrsjJKxoownTUVitKL-CV8nxzCJk3~1JuJ4kNX8EIUjVMDOoGYtqUB3zXwcmG~5rCBHxY2K0cbwudH~-TgrKxMwGTzkh69wFZa4ooy~datPaRio00a~L931Oycz-e4p~KK3z3VRUS4uw__',
     price: '69.900 đ',
     discount: '-39%',
