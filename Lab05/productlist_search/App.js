@@ -1,14 +1,8 @@
 import React from 'react';
 import {
-  SafeAreaView,
-  View,
-  FlatList,
-  StyleSheet,
-  Text,
-  Image,
-  StatusBar,
+  SafeAreaView,View,FlatList,StyleSheet,Text,Image,StatusBar,TouchableOpacity, TextInput,
 } from 'react-native';
-
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const DATA = [
   {
     id: '1',
@@ -87,6 +81,33 @@ const Item = ({ title, image, price, discount, rating, reviewCount }) => (
 const App = () => {
   return (
     <SafeAreaView style={styles.container}>
+
+ <View style={styles.headerContainer}>
+        <TouchableOpacity>
+          <FontAwesome name="arrow-left" size={30} color="white" />
+        </TouchableOpacity>
+
+
+       <View style={styles.searchContainer}>
+            <TouchableOpacity>
+                <FontAwesome name="search" size={24} color="black" />
+            </TouchableOpacity>
+            <TextInput
+            placeholder="Dây cáp usb"
+            style={styles.searchInput}
+        />
+        </View>
+
+        <TouchableOpacity style={styles.shoppingCart}>
+          <FontAwesome name="shopping-cart" size={30} color="white" />
+          <View style={styles.notificationDot} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.ellipsisIcon}>
+          <FontAwesome name="ellipsis-h" size={30} color="white" />
+        </TouchableOpacity>
+      </View>
+
       <FlatList
         data={DATA}
         renderItem={({ item }) => (
@@ -102,6 +123,18 @@ const App = () => {
         keyExtractor={item => item.id}
         numColumns={2}
       />
+
+       <View style={styles.footerContainer}>
+        <TouchableOpacity>
+          <FontAwesome name="bars" size={30} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <FontAwesome name="home" size={30} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <FontAwesome name="sign-out" size={30} color="black" />
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -111,9 +144,48 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
   },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#1ba9ff',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+  },
+  searchContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+    borderRadius: 5,
+    marginHorizontal: 25, 
+    paddingHorizontal: 5,
+    height: 35,
+  },
+  searchInput: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    marginLeft: 10,
+  },
+  shoppingCart: {
+    marginRight: 10, 
+  },
+  ellipsisIcon: {
+    marginLeft: 5, 
+  },
+  notificationDot: {
+    position: 'absolute', 
+    top: -5, 
+    right: -5, 
+    width: 20, 
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   item: {
     flex: 1, 
-    padding: 20,
+    padding: 17,
     margin: 8,
     elevation: 3,
   },
@@ -154,6 +226,14 @@ const styles = StyleSheet.create({
   discount: {
     fontSize: 12,
     color: 'red',
+  },
+  footerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#1ba9ff',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
   },
 });
 
