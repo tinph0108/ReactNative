@@ -16,6 +16,11 @@ export default function App() {
           component={HomeScreen} 
           options={{ headerShown: false }} 
         />
+	<Stack.Screen 
+          name="Tasks" 
+          component={TaskScreen} 
+          options={{ headerShown: false }} 
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
