@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, Image, ActivityIndicator, Modal, Button, Alert } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
 
 const TaskScreen = () => {
+  const navigation = useNavigation();
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [newTask, setNewTask] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const [editMode, setEditMode] = useState(false); 
+  const [editMode, setEditMode] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState(null);
 
   useEffect(() => {
@@ -15,20 +17,23 @@ const TaskScreen = () => {
       try {
         const response = await fetch('https://66fcb9acc3a184a84d17c7c2.mockapi.io/takeNote/task');
         const data = await response.json();
-        setTasks(data); 
+        setTasks(data);
       } catch (error) {
         console.error("Error fetching tasks:", error);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
-    fetchTasks(); 
-  }, []);
-
+    fetchTasks();
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchTasks(); 
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const handleAddTask = async () => {
-    if (newTask.trim() === '') return; 
+    if (newTask.trim() === '') return;
 
     const newTaskObject = { title: newTask };
 
@@ -54,7 +59,6 @@ const TaskScreen = () => {
     }
   };
 
-  // Hàm để cập nhật task lên MockAPI
   const handleEditTask = async () => {
     if (newTask.trim() === '') return;
 
@@ -69,9 +73,7 @@ const TaskScreen = () => {
 
       if (response.ok) {
         const updatedTaskFromApi = await response.json();
-
         setTasks(tasks.map(task => (task.id === taskToEdit.id ? updatedTaskFromApi : task)));
-
         setNewTask('');
         setTaskToEdit(null);
         setEditMode(false);
@@ -86,11 +88,29 @@ const TaskScreen = () => {
     }
   };
 
+  const handleDeleteTask = async (taskId) => {
+    try {
+      const response = await fetch(`https://66fcb9acc3a184a84d17c7c2.mockapi.io/takeNote/task/${taskId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setTasks(tasks.filter(task => task.id !== taskId));
+      } else {
+        console.error('Failed to delete task:', response.status);
+        Alert.alert('Error', 'Failed to delete task.');
+      }
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      Alert.alert('Error', 'Something went wrong while deleting the task.');
+    }
+  };
+
   const openEditModal = (task) => {
-    setNewTask(task.title); 
-    setTaskToEdit(task); 
+    setNewTask(task.title);
+    setTaskToEdit(task);
     setEditMode(true);
-    setModalVisible(true); 
+    setModalVisible(true);
   };
 
   if (loading) {
@@ -131,14 +151,22 @@ const TaskScreen = () => {
           <View style={styles.taskItem}>
             <FontAwesome name="check-square" size={20} color="green" />
             <Text style={styles.taskText}>{item.title}</Text>
-            <TouchableOpacity onPress={() => openEditModal(item)}>
-              <FontAwesome name="pencil" size={20} color="red" />
-            </TouchableOpacity>
+            <View style={styles.iconContainer}>
+              <TouchableOpacity onPress={() => openEditModal(item)}>
+                <FontAwesome name="pencil" size={20} color="red" style={styles.icon} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleDeleteTask(item.id)}>
+                <FontAwesome name="trash" size={20} color="gray" style={styles.icon} />
+              </TouchableOpacity>
+            </View>
           </View>
         )}
       />
 
-      <TouchableOpacity style={styles.addButton} onPress={() => { setEditMode(false); setModalVisible(true); }}>
+      <TouchableOpacity 
+        style={styles.addButton} 
+        onPress={() => navigation.navigate('AddJob')} // Điều hướng tới AddJobScreen
+      >
         <FontAwesome name="plus" size={30} color="white" />
       </TouchableOpacity>
 
@@ -168,7 +196,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#f8f8f8',
-    marginTop: 40
+    marginTop: 40,
   },
   header: {
     flexDirection: 'row',
@@ -218,6 +246,9 @@ const styles = StyleSheet.create({
   },
   taskText: {
     fontSize: 16,
+  },
+  iconContainer: {
+    flexDirection: 'row',
   },
   addButton: {
     position: 'absolute',
