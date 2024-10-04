@@ -4,7 +4,13 @@
 
 [Tuần 2](https://github.com/tinph0108/Tuan02_JS)
 
-[Tuần 3,4,5](https://github.com/tinph0108/ReactNative)
+[Tuần 3](https://github.com/tinph0108/ReactNative)
+
+[Tuần 4](https://github.com/tinph0108/ReactNative)
+
+[Tuần 5](https://github.com/tinph0108/ReactNative)
+
+[Tuần 6](https://github.com/tinph0108/ReactNative)
 
 **Phan Hữu Tín - 21018801**
 
