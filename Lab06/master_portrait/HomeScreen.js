@@ -17,9 +17,16 @@ const FoodApp = () => {
       });
   }, []);
 
-  const filteredData = foodData.filter(item =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredData = foodData.filter(item => {
+    if (selectedCategory === 'Donut') {
+      return item.name.toLowerCase().includes(searchQuery.toLowerCase());
+    } else if (selectedCategory === 'Pink Donut') {
+      return item.name.toLowerCase().includes('pink donut') && item.name.toLowerCase().includes(searchQuery.toLowerCase());
+    } else if (selectedCategory === 'Floating') {
+      return item.name.toLowerCase().includes('floating donut') && item.name.toLowerCase().includes(searchQuery.toLowerCase());
+    }
+    return false;
+  });
 
   const renderItem = ({ item }) => (
     <View style={styles.foodItem}>
