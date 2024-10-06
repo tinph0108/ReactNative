@@ -1,47 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Image } from 'react-native';
-
-const foodData = [
-  {
-    id: '1',
-    name: 'Tasty Donut',
-    description: 'Spicy tasty donut family',
-    price: '$10.00',
-    image: 'https://picsum.photos/200', 
-  },
-  {
-    id: '2',
-    name: 'Pink Donut',
-    description: 'Spicy tasty donut family',
-    price: '$20.00',
-    image: 'https://picsum.photos/200',
-  },
-  {
-    id: '3',
-    name: 'Floating Donut',
-    description: 'Spicy tasty donut family',
-    price: '$30.00',
-    image: 'https://picsum.photos/200',
-  },
-  {
-    id: '4',
-    name: 'Tasty Donut',
-    description: 'Spicy tasty donut family',
-    price: '$10.00',
-    image: 'https://picsum.photos/200', 
-  },
-];
 
 const FoodApp = () => {
   const [selectedCategory, setSelectedCategory] = useState('Donut');
+  const [foodData, setFoodData] = useState([]); 
+  const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    fetch('https://67020003b52042b542d8f513.mockapi.io/portrait/Donut')
+      .then((response) => response.json())
+      .then((data) => {
+        setFoodData(data); 
+      })
+      .catch((error) => {
+        console.error('Error fetching data: ', error);
+      });
+  }, []);
+
+  const filteredData = foodData.filter(item =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const renderItem = ({ item }) => (
     <View style={styles.foodItem}>
-      <Image source={{ uri: item.image }} style={styles.foodImage} />
+      <Image source={{ uri: item.imageUrl }} style={styles.foodImage} />
       <View style={styles.foodDetails}>
         <Text style={styles.foodName}>{item.name}</Text>
         <Text style={styles.foodDescription}>{item.description}</Text>
-        <Text style={styles.foodPrice}>{item.price}</Text>
+        <Text style={styles.foodPrice}>${item.price}</Text>
       </View>
       <TouchableOpacity style={styles.addButton}>
         <Text style={styles.addButtonText}>+</Text>
@@ -56,34 +42,38 @@ const FoodApp = () => {
       <Text style={styles.title}>Choice you Best food</Text>
 
       <View style={styles.searchContainer}>
-        <TextInput style={styles.searchInput} placeholder="Search food" />
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search food"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
       </View>
-
       <View style={styles.tabsContainer}>
-        <TouchableOpacity 
-          style={[styles.tabButton, selectedCategory === 'Donut' && styles.activeTab]} 
+        <TouchableOpacity
+          style={[styles.tabButton, selectedCategory === 'Donut' && styles.activeTab]}
           onPress={() => setSelectedCategory('Donut')}
         >
           <Text style={styles.tabText}>Donut</Text>
         </TouchableOpacity>
-        <TouchableOpacity 
-          style={[styles.tabButton, selectedCategory === 'Pink Donut' && styles.activeTab]} 
+        <TouchableOpacity
+          style={[styles.tabButton, selectedCategory === 'Pink Donut' && styles.activeTab]}
           onPress={() => setSelectedCategory('Pink Donut')}
         >
           <Text style={styles.tabText}>Pink Donut</Text>
         </TouchableOpacity>
-        <TouchableOpacity 
-          style={[styles.tabButton, selectedCategory === 'Floating' && styles.activeTab]} 
+        <TouchableOpacity
+          style={[styles.tabButton, selectedCategory === 'Floating' && styles.activeTab]}
           onPress={() => setSelectedCategory('Floating')}
         >
           <Text style={styles.tabText}>Floating</Text>
         </TouchableOpacity>
       </View>
 
-      <FlatList 
-        data={foodData} 
-        renderItem={renderItem} 
-        keyExtractor={item => item.id} 
+      <FlatList
+        data={filteredData}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
         style={styles.foodList}
       />
     </SafeAreaView>
@@ -95,7 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 15,
     backgroundColor: '#fff',
-    marginTop: 35,
+    marginTop: 25,
   },
   welcomeText: {
     fontSize: 18,
@@ -148,12 +138,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FFE4E1',
     borderRadius: 15,
-    padding: 15,
+    padding: 35,
     marginBottom: 10,
   },
   foodImage: {
-    width: 70,
-    height: 70,
+    width: 100,
+    height: 100,
     borderRadius: 10,
     marginRight: 15,
   },
@@ -161,17 +151,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   foodName: {
-    fontSize: 16,
+    fontSize: 25,
     fontWeight: 'bold',
     marginBottom: 5,
   },
   foodDescription: {
-    fontSize: 12,
+    fontSize: 16,
     color: 'gray',
     marginBottom: 5,
   },
   foodPrice: {
-    fontSize: 16,
+    fontSize: 25,
     fontWeight: 'bold',
   },
   addButton: {
