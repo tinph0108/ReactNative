@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const FoodApp = () => {
+  const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState('Donut');
-  const [foodData, setFoodData] = useState([]); 
+  const [foodData, setFoodData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     fetch('https://67020003b52042b542d8f513.mockapi.io/portrait/Donut')
       .then((response) => response.json())
       .then((data) => {
-        setFoodData(data); 
+        setFoodData(data);
       })
       .catch((error) => {
         console.error('Error fetching data: ', error);
@@ -18,35 +20,44 @@ const FoodApp = () => {
   }, []);
 
   const filteredData = foodData.filter(item => {
-    if (selectedCategory === 'Donut') {
-      return item.name.toLowerCase().includes(searchQuery.toLowerCase());
-    } else if (selectedCategory === 'Pink Donut') {
-      return item.name.toLowerCase().includes('pink donut') && item.name.toLowerCase().includes(searchQuery.toLowerCase());
-    } else if (selectedCategory === 'Floating') {
-      return item.name.toLowerCase().includes('floating donut') && item.name.toLowerCase().includes(searchQuery.toLowerCase());
-    }
-    return false;
+    return (
+      item.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      ((selectedCategory === 'Donut') || 
+      (selectedCategory === 'Pink Donut' && item.name.toLowerCase().includes('pink donut')) || 
+      (selectedCategory === 'Floating' && item.name.toLowerCase().includes('floating donut')))
+    );
   });
 
-  const renderItem = ({ item }) => (
-    <View style={styles.foodItem}>
-      <Image source={{ uri: item.imageUrl }} style={styles.foodImage} />
-      <View style={styles.foodDetails}>
-        <Text style={styles.foodName}>{item.name}</Text>
-        <Text style={styles.foodDescription}>{item.description}</Text>
-        <Text style={styles.foodPrice}>${item.price}</Text>
-      </View>
-      <TouchableOpacity style={styles.addButton}>
-        <Text style={styles.addButtonText}>+</Text>
-      </TouchableOpacity>
+const renderItem = ({ item }) => (
+  <TouchableOpacity 
+    style={styles.foodItem}
+    onPress={() => navigation.navigate('DonutDetails', { 
+      donut: {
+        id: item.id,
+        name: item.name,
+        imageUrl: item.imageUrl,
+        description: item.description,
+        price: item.price,
+      }
+    })} 
+  >
+    <Image source={{ uri: item.imageUrl }} style={styles.foodImage} />
+    <View style={styles.foodDetails}>
+      <Text style={styles.foodName}>{item.name}</Text>
+      <Text style={styles.foodDescription}>{item.description}</Text>
+      <Text style={styles.foodPrice}>${item.price}</Text>
     </View>
-  );
+    <TouchableOpacity style={styles.addButton}>
+      <Text style={styles.addButtonText}>+</Text>
+    </TouchableOpacity>
+  </TouchableOpacity>
+);
+
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.welcomeText}>Welcome, Jala!</Text>
-
-      <Text style={styles.title}>Choice you Best food</Text>
+      <Text style={styles.title}>Choose your Best food</Text>
 
       <View style={styles.searchContainer}>
         <TextInput
@@ -80,7 +91,7 @@ const FoodApp = () => {
       <FlatList
         data={filteredData}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         style={styles.foodList}
       />
     </SafeAreaView>
