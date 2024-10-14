@@ -1,43 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, FlatList, StyleSheet, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-const shopsData = [
-  {
-    id: '1',
-    name: 'Kitanda Espresso & Acai-U District',
-    address: '1121 NE 45 St',
-    status: 'Accepting Orders',
-    time: '5-10 minutes',
-    imageUrl: 'https://picsum.photos/200',
-    available: true,
-  },
-  {
-    id: '2',
-    name: 'Jewel Box Cafe',
-    address: '1145 GE 54 St',
-    status: 'Temporary Unavailable',
-    time: '10-15 minutes',
-    imageUrl: 'https://picsum.photos/200',
-    available: false,
-  },
-  {
-    id: '3',
-    name: 'Javasti Cafe',
-    address: '1167 GE 54 St',
-    status: 'Temporary Unavailable',
-    time: '15-20 minutes',
-    imageUrl: 'https://picsum.photos/200',
-    available: false,
-  },
-];
-
 const ShopItem = ({ item }) => {
   const navigation = useNavigation();
+  
+  const handlePress = () => {
+    if (item.available) {
+      navigation.navigate('DrinksScreen', { shopId: item.id });
+    } else {
+      alert('This shop is temporarily unavailable.');
+    }
+  };
 
   return (
-    <TouchableOpacity style={styles.shopItem}>
+    <TouchableOpacity style={styles.shopItem} onPress={handlePress}>
       <Image source={{ uri: item.imageUrl }} style={styles.shopImage} />
       <View style={styles.shopDetails}>
         <View style={styles.shopStatusContainer}>
@@ -56,7 +34,22 @@ const ShopItem = ({ item }) => {
 };
 
 const ShopsScreen = () => {
+  const [shopsData, setShopsData] = useState([]);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const fetchShops = async () => {
+      try {
+        const response = await fetch('https://670c8c017e5a228ec1d09fab.mockapi.io/Shop/Shops');
+        const data = await response.json();
+        setShopsData(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchShops();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -117,7 +110,6 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   shopStatusContainer: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',

@@ -4,6 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './HomeScreen';
 import ShopsScreen from './ShopsScreen'
+import DrinksScreen from './DrinksScreen'
+import OrderScreen from './OrderScreen'
 const Stack = createStackNavigator();
 
 export default function App() {

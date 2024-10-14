@@ -3,19 +3,19 @@ import { SafeAreaView, View, Text, Image, TouchableOpacity, StyleSheet } from 'r
 import { useNavigation } from '@react-navigation/native'; 
 
 const CafeApp = () => {
-  const navigation = useNavigation(); // Lấy navigation từ hook useNavigation
+  const navigation = useNavigation();
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Welcome to Cafe world</Text> 
 
       <Image 
-        source={{ uri: 'https://picsum.photos/200' }} 
+        source={{ uri: 'https://i.postimg.cc/Z5Dxdm84/cf7473f16b029a5683363d6a96c8daeb.png' }} 
         style={styles.image}
       />
 
       <Image 
-        source={{ uri: 'https://picsum.photos/200' }} 
+        source={{ uri: 'https://i.postimg.cc/zfbSwQ7W/dfbb52e32e73fb31128ce70ef7e29ff5.png' }} 
         style={styles.image}
       />
 
