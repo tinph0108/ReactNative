@@ -22,6 +22,16 @@ export default function App() {
           component={ShopsScreen} 
           options={{ headerShown: false }} 
         />
+          <Stack.Screen 
+          name="DrinksScreen" 
+          component={DrinksScreen} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="OrderScreen" 
+          component={OrderScreen} 
+          options={{ headerShown: false }} 
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
