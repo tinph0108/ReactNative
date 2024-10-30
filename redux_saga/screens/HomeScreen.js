@@ -24,7 +24,7 @@ const HomeScreen = ({ navigation }) => {
   
         />
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Tasks',{userName: name})}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('TaskScreen',{name: name})}>
         <Text style={styles.buttonText}>GET STARTED →</Text>
       </TouchableOpacity>
     </SafeAreaView>
