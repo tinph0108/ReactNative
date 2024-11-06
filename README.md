@@ -12,5 +12,19 @@
 
 [Tuần 6](https://github.com/tinph0108/ReactNative/tree/main/Lab06)
 
+[Tuần 7](https://github.com/tinph0108/ReactNative/tree/main/Lab07)
+
+[Tuần 8](https://github.com/tinph0108/ReactNative/tree/main/Lab08)
+
+[Tuần 9 - Làm bài chấm điểm Redux Saga](https://github.com/tinph0108/ReactNative/tree/main/redux_saga)
+
+[Tuần 9 - Làm bài chấm điểm Redux Toolkit](https://github.com/tinph0108/ReactNative/tree/main/redux_toolkit)
+
+[Tuần 9 - Làm bài chấm điểm Recoil](https://github.com/tinph0108/ReactNative/tree/main/recoil)
+
+[Tuần 10](https://github.com/tinph0108/ReactNative/tree/main/Lab10_Bicycle)
+
+
+
 **Phan Hữu Tín - 21018801**
 
