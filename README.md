@@ -22,7 +22,7 @@
 
 [Tuần 9 - Làm bài chấm điểm Recoil](https://github.com/tinph0108/ReactNative/tree/main/recoil)
 
-[Tuần 10](https://github.com/tinph0108/ReactNative/tree/main/Lab10_Bicycle)
+[Tuần 10 - Chấm diểm - Bicycle](https://github.com/tinph0108/ReactNative/tree/main/Lab10_Bicycle)
 
 
 
